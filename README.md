@@ -1210,7 +1210,78 @@ proxyCargador.cargarImagen('imagen1.jpg'); // Se obtiene desde el caché
 
 ## Patrones de comportamiento<a name="comportamiento"></a>
 
+Los patrones de comportamiento tratan con algoritmos y la asignación de responsabilidades entre objetos.
+
+
+
+
+
 ### Chain of Responsibility<a name="chain-of-responsibility"></a>
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★✰✰** |
+
+
+#### Propósito 
+
+Permitir que varios objetos manejen una solicitud de manera secuencial, pasándola a lo largo de una cadena hasta que un objeto pueda manejarla. Esto evita acoplar el remitente de una solicitud con su receptor, permitiendo que múltiples objetos tengan la oportunidad de manejar la solicitud.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Desacopla el remitente de la solicitud de sus receptores | Puede ser difícil determinar el flujo de la cadena  |
+| Permite la flexibilidad en la asignación de responsabilidades | Puede haber un riesgo de que la solicitud no sea manejada |
+| Facilita la extensibilidad y la reutilización del código |                                                     |
+
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de aprobación de solicitudes de compra, donde cada solicitud debe ser aprobada por un conjunto específico de autoridades en un orden específico. Queremos implementar un sistema que maneje la aprobación de solicitudes de manera secuencial, pasando la solicitud de aprobación a través de una cadena de autoridades hasta que sea aprobada.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Handler: Interfaz para manejar la solicitud
+interface ManejadorSolicitud {
+    establecerSiguiente(manejador: ManejadorSolicitud): void;
+    manejarSolicitud(precio: number): void;
+}
+
+// Handler concreto: Autoridad de aprobación
+class AutoridadAprobacion implements ManejadorSolicitud {
+    private siguiente: ManejadorSolicitud;
+
+    establecerSiguiente(manejador: ManejadorSolicitud): void {
+        this.siguiente = manejador;
+    }
+
+    manejarSolicitud(precio: number): void {
+        console.log("Autoridad de aprobación aprobando la solicitud...");
+    }
+}
+
+// Cliente
+const autoridad1 = new AutoridadAprobacion();
+const autoridad2 = new AutoridadAprobacion();
+const autoridad3 = new AutoridadAprobacion();
+
+autoridad1.establecerSiguiente(autoridad2);
+autoridad2.establecerSiguiente(autoridad3);
+
+// Manejar la solicitud
+autoridad1.manejarSolicitud(500); // La solicitud pasa por la cadena de autoridades hasta ser aprobada
+
+```
+
+
+
+
 ### Command<a name="command"></a>
 ### Iterator<a name="iterator"></a>
 ### Mediator<a name="mediator"></a>
