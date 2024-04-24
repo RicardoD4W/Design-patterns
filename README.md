@@ -599,7 +599,10 @@ dbConnection1.connect(); // Output: Conexión a la base de datos establecida.
 
 
 
+
 ## Patrones estructurales<a name="estructurales"></a>
+
+Los patrones estructurales explican cómo ensamblar objetos y clases en estructuras más grandes, a la vez que se mantiene la flexibilidad y eficiencia de estas estructuras.
 
 ### Adapter<a name="adapter"></a>
 ### Bridge<a name="bridge"></a>
