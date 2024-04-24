@@ -58,9 +58,11 @@ La mayoría de los patrones se describe con mucha formalidad para que la gente p
 
     * La estructura de las clases muestra cada una de las partes del patrón y el modo en que se relacionan.
 
-    * El ejemplo de código en uno de los lenguajes de programación populares facilita la asimilación de la idea que se esconde tras el patrón.
+    * El ejemplo de código en uno de los lenguajes de programación populares facilita la asimilación de la 
+    idea que se esconde tras el patrón.
 
-    * Algunos catálogos de patrones enumeran otros detalles útiles, como la aplicabilidad del patrón, los pasos de implementación y las relaciones con otros patrones.
+    * Algunos catálogos de patrones enumeran otros detalles útiles, como la aplicabilidad del patrón,
+     los pasos de implementación y las relaciones con otros patrones.
 
 
 
