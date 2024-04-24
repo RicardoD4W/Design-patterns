@@ -333,12 +333,203 @@ createMedia(new ClassicMediaFactory());
 
 
 
-
-
-
-
 ### Builder<a name="builder"></a>
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+#### Propósito 
+
+Separar la construcción de un objeto complejo de su representación, de modo que el mismo proceso de construcción pueda crear diferentes representaciones. Esto permite construir objetos complejos paso a paso, de manera flexible, y ocultar la complejidad de su construcción al cliente.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Separación de preocupaciones                        | Complejidad adicional                               |
+| Flexibilidad                                        | Overhead adicional                                  |
+| Oculta la complejidad                               | Aumento del acoplamiento entre clases               |
+
+
+#### Problema
+
+Consideremos un sistema de construcción de casas, donde cada casa puede tener diferentes tipos de habitaciones, materiales de construcción y estilos arquitectónicos. Utilizaremos el patrón Builder para construir diferentes tipos de casas de manera flexible y ocultar la complejidad de su construcción al cliente.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Definimos la clase Casa que será construida
+class Casa {
+    private habitaciones: string[] = [];
+    private material: string = '';
+    private estilo: string = '';
+
+    constructor(material: string, estilo: string) {
+        this.material = material;
+        this.estilo = estilo;
+    }
+
+    agregarHabitacion(habitacion: string): void {
+        this.habitaciones.push(habitacion);
+    }
+
+    mostrar(): void {
+        console.log(`Casa construida con material ${this.material}, estilo ${this.estilo} y las siguientes habitaciones:`);
+        this.habitaciones.forEach((habitacion, index) => {
+            console.log(`- Habitación ${index + 1}: ${habitacion}`);
+        });
+    }
+}
+
+// Definimos la interfaz Builder para la construcción de la casa
+interface CasaBuilder {
+    construirHabitaciones(): void;
+    construirMaterial(): void;
+    construirEstilo(): void;
+    obtenerCasa(): Casa;
+}
+
+// Implementamos el Builder para construir una casa moderna
+class CasaModernaBuilder implements CasaBuilder {
+    private casa: Casa;
+
+    constructor() {
+        this.casa = new Casa('Cemento', 'Moderno');
+    }
+
+    construirHabitaciones(): void {
+        this.casa.agregarHabitacion('Sala de estar');
+        this.casa.agregarHabitacion('Dormitorio principal');
+        this.casa.agregarHabitacion('Cocina');
+        this.casa.agregarHabitacion('Baño');
+    }
+
+    construirMaterial(): void {
+        // En este caso, el material ya está definido al crear la casa moderna
+    }
+
+    construirEstilo(): void {
+        // En este caso, el estilo ya está definido al crear la casa moderna
+    }
+
+    obtenerCasa(): Casa {
+        return this.casa;
+    }
+}
+
+// Director que construye una casa según las especificaciones del Builder
+class ConstructorDeCasas {
+    private casaBuilder: CasaBuilder;
+
+    constructor(casaBuilder: CasaBuilder) {
+        this.casaBuilder = casaBuilder;
+    }
+
+    construirCasa(): void {
+        this.casaBuilder.construirHabitaciones();
+        this.casaBuilder.construirMaterial();
+        this.casaBuilder.construirEstilo();
+    }
+
+    obtenerCasa(): Casa {
+        return this.casaBuilder.obtenerCasa();
+    }
+}
+
+// Cliente
+const builderModerno = new CasaModernaBuilder();
+const constructor = new ConstructorDeCasas(builderModerno);
+
+constructor.construirCasa();
+const casaModerna = constructor.obtenerCasa();
+casaModerna.mostrar(); // Casa construida con material cemento, estilo moderno y las siguientes habitaciones:
+                       // - Habitación 1: Sala de estar - Habitación 2: Dormitorio principal - Habitación 3: Cocina - Habitación 4: Baño
+
+```
+
+
+
+
+
+
+
+
 ### Prototype<a name="prototype"></a>
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
+
+
+#### Propósito 
+
+Permitir la creación de nuevos objetos duplicando una instancia existente, conocida como prototipo, en lugar de crear una instancia desde cero. Esto permite la creación de nuevos objetos con la misma estructura y propiedades que un objeto existente, reduciendo la complejidad y el acoplamiento en el proceso de creación de objetos.
+
+
+#### Pros y contras
+
+| Pros                                                       | Contras                                                         |
+|------------------------------------------------------------|-----------------------------------------------------------------|
+| Facilita la creación de nuevos objetos                     | Puede ser complicado si el objeto tiene una estructura compleja |
+| Reduce el acoplamiento en el proceso de creación           | Duplicación de código                                           |
+| Permite la personalización de objetos existentes           |                                                                 |
+
+
+#### Problema
+
+Consideremos un sistema de gestión de empleados, necesitamos crear diferentes tipos de empleados, como desarrolladores, diseñadores y gerentes. Cada empleado tiene atributos comunes como nombre, edad y salario. Utilizaremos el patrón Prototype para crear nuevos empleados a partir de un prototipo existente.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Definimos la clase Empleado como prototipo
+class Empleado {
+    constructor(public nombre: string, public edad: number, public salario: number) {}
+
+    // Método para clonar el prototipo
+    clonar(): Empleado {
+        return new Empleado(this.nombre, this.edad, this.salario);
+    }
+
+    // Método para mostrar los detalles del empleado
+    detalles(): string {
+        return `Nombre: ${this.nombre}, Edad: ${this.edad}, Salario: ${this.salario}`;
+    }
+}
+
+// Crear un empleado prototipo
+const prototipoEmpleado = new Empleado('John Doe', 30, 50000);
+
+// Crear nuevos empleados a partir del prototipo
+const empleado1 = prototipoEmpleado.clonar();
+const empleado2 = prototipoEmpleado.clonar();
+
+// Modificar los detalles de los nuevos empleados si es necesario, por simplicidad del ejemplo omitimos la encapsulación
+// OJO esta es muy importante al trabajar con POO
+empleado1.nombre = 'Alice';
+empleado2.nombre = 'Bob';
+
+// Mostrar detalles de los empleados
+console.log('Empleado 1:', empleado1.detalles()); // Empleado 1: Nombre: Alice, Age: 30, Salary: 50000
+console.log('Empleado 2:', empleado2.detalles()); // Empleado 2: Nombre: Bob, Age: 30, Salary: 50000
+
+```
+
+
+
+
+
+
+
+
 ### Singleton<a name="singleton"></a>
 
 ---
