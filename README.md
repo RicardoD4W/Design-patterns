@@ -1370,6 +1370,101 @@ editor.ejecutarComando(comandoPegar);
 
 
 ### Iterator<a name="iterator"></a>
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+
+#### Propósito 
+
+Proporcionar una forma de acceder a los elementos de una colección secuencialmente sin exponer su representación subyacente. Esto permite recorrer una colección de objetos sin conocer los detalles de su implementación interna.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Desacopla el código cliente de la estructura de la colección | Puede aumentar la complejidad del código cliente    |
+| Permite recorrer una colección de objetos sin conocer su implementación interna | Puede requerir la implementación de un iterador personalizado para cada tipo de colección |
+| Facilita la implementación de algoritmos de recorrido y procesamiento de colecciones |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos una lista de tareas pendientes y queremos implementar un iterador para recorrerlas y mostrarlas en la consola.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Iterador: Interfaz para el iterador
+interface Iterador<T> {
+    siguiente(): T;
+    tieneSiguiente(): boolean;
+}
+
+// Agregado: Interfaz para el agregado
+interface Agregado<T> {
+    crearIterador(): Iterador<T>;
+}
+
+// Colección concreta: Implementación de la lista de tareas pendientes
+class ListaTareas implements Agregado<string> {
+    private tareas: string[] = [];
+
+    agregarTarea(tarea: string): void {
+        this.tareas.push(tarea);
+    }
+
+    obtenerTarea(index: number): string {
+        return this.tareas[index];
+    }
+
+    obtenerCantidadTareas(): number {
+        return this.tareas.length;
+    }
+
+    crearIterador(): Iterador<string> {
+        return new IteradorListaTareas(this);
+    }
+}
+
+// Iterador concreto: Implementación del iterador para la lista de tareas
+class IteradorListaTareas implements Iterador<string> {
+    private index: number = 0;
+
+    constructor(private listaTareas: ListaTareas) {}
+
+    siguiente(): string {
+        const tarea = this.listaTareas.obtenerTarea(this.index);
+        this.index++;
+        return tarea;
+    }
+
+    tieneSiguiente(): boolean {
+        return this.index < this.listaTareas.obtenerCantidadTareas();
+    }
+}
+
+// Cliente
+const listaTareas = new ListaTareas();
+listaTareas.agregarTarea("Hacer la compra");
+listaTareas.agregarTarea("Lavar el coche");
+listaTareas.agregarTarea("Estudiar para el examen");
+
+const iterador = listaTareas.crearIterador();
+
+// Recorrer la lista de tareas y mostrarlas en la consola
+while (iterador.tieneSiguiente()) {
+    console.log(iterador.siguiente());
+}
+
+```
+
+
+
 ### Mediator<a name="mediator"></a>
 ### Memento<a name="memento"></a>
 ### Observer<a name="observer"></a>
