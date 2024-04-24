@@ -1283,6 +1283,92 @@ autoridad1.manejarSolicitud(500); // La solicitud pasa por la cadena de autorida
 
 
 ### Command<a name="command"></a>
+
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+
+#### Propósito 
+
+Encapsular una solicitud como un objeto, permitiendo parametrizar clientes con operaciones y permitiendo la operación de solicitudes de forma asíncrona, en cola o con registro. Esto desacopla el objeto que invoca la operación de los objetos que conocen los detalles de la operación.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Desacopla el remitente de la solicitud de su receptor | Puede aumentar la complejidad del código             |
+| Permite la parametrización de objetos con operaciones | Puede requerir la creación de múltiples clases para cada comando |
+| Facilita la implementación de operaciones reversibles o encolables |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos un editor de texto que permite al usuario realizar operaciones como copiar, cortar y pegar texto. Queremos implementar estas operaciones como comandos para que puedan ser ejecutadas de forma asíncrona o en cola.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Comando: Interfaz para los comandos
+interface Comando {
+    ejecutar(): void;
+}
+
+// Comandos concretos: Implementaciones de los comandos
+class ComandoCopiar implements Comando {
+    constructor(private texto: string) {}
+
+    ejecutar(): void {
+        console.log(`Texto copiado: ${this.texto}`);
+    }
+}
+
+class ComandoCortar implements Comando {
+    constructor(private texto: string) {}
+
+    ejecutar(): void {
+        console.log(`Texto cortado: ${this.texto}`);
+    }
+}
+
+class ComandoPegar implements Comando {
+    constructor(private texto: string) {}
+
+    ejecutar(): void {
+        console.log(`Texto pegado: ${this.texto}`);
+    }
+}
+
+// Invocador: Clase que invoca los comandos
+class EditorTexto {
+    ejecutarComando(comando: Comando): void {
+        comando.ejecutar();
+    }
+}
+
+// Cliente
+const editor = new EditorTexto();
+
+// Ejecutar comandos
+const comandoCopiar = new ComandoCopiar("Texto seleccionado");
+const comandoCortar = new ComandoCortar("Texto seleccionado");
+const comandoPegar = new ComandoPegar("Texto copiado");
+
+editor.ejecutarComando(comandoCopiar);
+editor.ejecutarComando(comandoCortar);
+editor.ejecutarComando(comandoPegar);
+
+```
+
+
+
+
+
+
 ### Iterator<a name="iterator"></a>
 ### Mediator<a name="mediator"></a>
 ### Memento<a name="memento"></a>
