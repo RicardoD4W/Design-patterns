@@ -136,17 +136,101 @@ Además, **todos los patrones pueden clasificarse por su propósito:**
 
 Proporcionar una interfaz para crear objetos en una superclase, pero permitiendo a las subclases alterar el tipo de objetos que se crearán. Esto promueve la abstracción y la flexibilidad al encapsular la creación de objetos en métodos específicos que pueden ser implementados de manera diferente por las subclases.
 
+#### Pros y contras
+
+| Pros                                    | Contras                                     |
+|-----------------------------------------|---------------------------------------------|
+| Flexibilidad                          | Complejidad adicional                     |
+| Abstracción                           | Diseño adicional necesario                |
+| Extensibilidad                        | Acoplamiento potencial                    |
+| Reutilización del código              | Sobrecarga inicial                        |
 
 #### Problema
 
-Imagina que estás creando una aplicación de gestión logística. La primera versión de tu aplicación sólo es capaz de manejar el transporte en camión, por lo que la mayor parte de tu código se encuentra dentro de la clase Camión.
+Consideremos un sistema de manejo de envíos en una aplicación de comercio electrónico. El problema es que el sistema necesita manejar diferentes tipos de envíos, como envío terrestre, envío aéreo y envío marítimo, y cada uno de ellos tiene un proceso de creación diferente. Utilizaremos el patrón Factory Method para resolver este problema.
 
-Al cabo de un tiempo, tu aplicación se vuelve bastante popular. Cada día recibes decenas de peticiones de empresas de transporte marítimo para que incorpores la logística por mar a la aplicación.
 
-Estupendo, ¿verdad? Pero, ¿qué pasa con el código? En este momento, la mayor parte de tu código está acoplado a la clase Camión. Para añadir barcos a la aplicación habría que hacer cambios en toda la base del código. Además, si más tarde decides añadir otro tipo de transporte a la aplicación, probablemente tendrás que volver a hacer todos estos cambios.
+#### Ejemplo
 
-Al final acabarás con un código bastante sucio, plagado de condicionales que cambian el comportamiento de la aplicación dependiendo de la clase de los objetos de transporte
+```ts
+index.ts
+-----------------------------------------
+// Definimos la clase base para los envíos
+abstract class Shipment {
+    abstract deliver(): string;
+}
 
+// Creamos las subclases específicas para cada tipo de envío
+class LandShipment extends Shipment {
+    deliver(): string {
+        return 'Entrega por tierra';
+    }
+}
+
+class AirShipment extends Shipment {
+    deliver(): string {
+        return 'Entrega por aire';
+    }
+}
+
+class SeaShipment extends Shipment {
+    deliver(): string {
+        return 'Entrega por mar';
+    }
+}
+
+// Creamos la clase Creator que tendrá el Factory Method
+abstract class ShipmentCreator {
+    abstract createShipment(): Shipment;
+
+    // Otros métodos comunes pueden ir aquí
+}
+
+// Implementamos el Factory Method en las subclases concretas del Creator
+class LandShipmentCreator extends ShipmentCreator {
+    createShipment(): Shipment {
+        return new LandShipment();
+    }
+}
+
+class AirShipmentCreator extends ShipmentCreator {
+    createShipment(): Shipment {
+        return new AirShipment();
+    }
+}
+
+class SeaShipmentCreator extends ShipmentCreator {
+    createShipment(): Shipment {
+        return new SeaShipment();
+    }
+}
+
+// Cliente
+function handleShipment(shipmentCreator: ShipmentCreator) {
+    const shipment = shipmentCreator.createShipment();
+    console.log(shipment.deliver());
+}
+
+// Uso del Factory Method
+handleShipment(new LandShipmentCreator()); // Output: Entrega por tierra
+handleShipment(new AirShipmentCreator());  // Output: Entrega por aire
+handleShipment(new SeaShipmentCreator());  // Output: Entrega por mar
+```
+
+
+
+
+
+
+### Abstract Factory<a name="abstract-factory"></a>
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+#### Propósito 
+
+Proporcionar una interfaz para crear familias de objetos relacionados o dependientes sin especificar sus clases concretas. Esto permite que un cliente trabaje con las familias de objetos a través de interfaces abstractas, lo que facilita la creación de productos relacionados pero independientes de la implementación.
 
 #### Pros y contras
 
@@ -157,85 +241,102 @@ Al final acabarás con un código bastante sucio, plagado de condicionales que c
 | Extensibilidad                        | Acoplamiento potencial                    |
 | Reutilización del código              | Sobrecarga inicial                        |
 
+#### Problema
+
+Consideremos un sistema de generación de contenido multimedia, donde necesitamos crear tanto imágenes como vídeos. Además, queremos tener diferentes estilos para cada tipo de contenido, como un estilo moderno y un estilo clásico. Utilizaremos el patrón Abstract Factory para manejar esta variabilidad y crear tanto imágenes como vídeos en los estilos especificados.
+
 
 #### Ejemplo
 
 ```ts
 index.ts
 -----------------------------------------
+// Definimos las interfaces para los productos
+interface Image {
+    display(): void;
+}
 
-abstract class Creator {
-    public abstract factoryMethod(): Product;
+interface Video {
+    play(): void;
+}
 
-    public someOperation(): string {
-        const product = this.factoryMethod();
-        return `Creator: The same creator's code has just worked with ${product.operation()}`;
+// Creamos las implementaciones concretas de los productos
+class ModernImage implements Image {
+    display(): void {
+        console.log('Mostrando imagen en estilo moderno');
     }
 }
 
-interface Product {
-    operation(): string;
-}
-
-
-class ConcreteProduct1 implements Product {
-    public operation(): string {
-        return '{Result of the ConcreteProduct1}';
+class ClassicImage implements Image {
+    display(): void {
+        console.log('Mostrando imagen en estilo clásico');
     }
 }
 
-class ConcreteProduct2 implements Product {
-    public operation(): string {
-        return '{Result of the ConcreteProduct2}';
+class ModernVideo implements Video {
+    play(): void {
+        console.log('Reproduciendo video en estilo moderno');
     }
 }
 
-
-
-class ConcreteCreator1 extends Creator {
-    public factoryMethod(): Product {
-        return new ConcreteProduct1();
+class ClassicVideo implements Video {
+    play(): void {
+        console.log('Reproduciendo video en estilo clásico');
     }
 }
 
-class ConcreteCreator2 extends Creator {
-    public factoryMethod(): Product {
-        return new ConcreteProduct2();
+// Definimos la interfaz Abstract Factory
+interface MediaFactory {
+    createImage(): Image;
+    createVideo(): Video;
+}
+
+// Implementamos las fábricas concretas
+class ModernMediaFactory implements MediaFactory {
+    createImage(): Image {
+        return new ModernImage();
+    }
+
+    createVideo(): Video {
+        return new ModernVideo();
     }
 }
 
-function clientCode(creator: Creator) {
-    // ...
-    console.log('Client: I\'m not aware of the creator\'s class, but it still works.');
-    console.log(creator.someOperation());
-    // ...
-}
-console.log('App: Launched with the ConcreteCreator1.');
-clientCode(new ConcreteCreator1());
-console.log('');
+class ClassicMediaFactory implements MediaFactory {
+    createImage(): Image {
+        return new ClassicImage();
+    }
 
-console.log('App: Launched with the ConcreteCreator2.');
-clientCode(new ConcreteCreator2());
+    createVideo(): Video {
+        return new ClassicVideo();
+    }
+}
+
+// Cliente
+function createMedia(mediaFactory: MediaFactory) {
+    const image = mediaFactory.createImage();
+    const video = mediaFactory.createVideo();
+
+    image.display();
+    video.play();
+}
+
+// Uso del Abstract Factory
+console.log('Creando contenido multimedia en estilo moderno:');
+createMedia(new ModernMediaFactory());
+
+console.log('\nCreando contenido multimedia en estilo clásico:');
+createMedia(new ClassicMediaFactory());
+
 ```
 
-```
-output
------------------------------------------
-App: Launched with the ConcreteCreator1.
-Client: I'm not aware of the creator's class, but it still works.
-Creator: The same creator's code has just worked with {Result of the ConcreteProduct1}
-
-App: Launched with the ConcreteCreator2.
-Client: I'm not aware of the creator's class, but it still works.
-Creator: The same creator's code has just worked with {Result of the ConcreteProduct2}
-
-```
 
 
 
- 
 
-### Abstract Factory<a name="abstract-factory"></a>
+
+
+
 ### Builder<a name="builder"></a>
 ### Prototype<a name="prototype"></a>
 ### Singleton<a name="singleton"></a>
