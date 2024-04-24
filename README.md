@@ -1960,6 +1960,105 @@ console.log("precio con descuento para miembro oro:", contexto.calcularDescuento
 
 
 ### Template Method<a name="template-method"></a>
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
+
+
+#### Propósito 
+
+Definir la estructura de un algoritmo en una clase base, pero permitir que las subclases sobrescriban pasos específicos del algoritmo sin cambiar su estructura general.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Promueve la reutilización de código                | Puede aumentar la complejidad del diseño            |
+| Define una estructura clara y predecible para los algoritmos | Puede ser difícil de entender en sistemas complejos  |
+| Permite la extensión y personalización del comportamiento sin modificar la estructura general |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de envío de correos electrónicos que requiere un proceso de envío que puede variar según el tipo de correo. Queremos utilizar el patrón Template Method para definir una estructura común para el proceso de envío, permitiendo que diferentes tipos de correos personalicen pasos específicos del proceso.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Clase base para el envío de correos electrónicos
+abstract class EnvioCorreo {
+    // Método template que define la estructura común del proceso de envío
+    enviar(): void {
+        this.conectarServidorCorreo();
+        this.autenticarUsuario();
+        this.enviarCorreo();
+        this.desconectarServidorCorreo();
+    }
+
+    abstract conectarServidorCorreo(): void;
+    abstract autenticarUsuario(): void;
+    abstract enviarCorreo(): void;
+    abstract desconectarServidorCorreo(): void;
+}
+
+// Subclase para enviar correos normales
+class EnvioCorreoNormal extends EnvioCorreo {
+    conectarServidorCorreo(): void {
+        console.log("Conectando al servidor de correo normal...");
+    }
+
+    autenticarUsuario(): void {
+        console.log("Autenticando usuario normal...");
+    }
+
+    enviarCorreo(): void {
+        console.log("Enviando correo normal...");
+    }
+
+    desconectarServidorCorreo(): void {
+        console.log("Desconectando del servidor de correo normal...");
+    }
+}
+
+// Subclase para enviar correos prioritarios
+class EnvioCorreoPrioritario extends EnvioCorreo {
+    conectarServidorCorreo(): void {
+        console.log("Conectando al servidor de correo prioritario...");
+    }
+
+    autenticarUsuario(): void {
+        console.log("Autenticando usuario prioritario...");
+    }
+
+    enviarCorreo(): void {
+        console.log("Enviando correo prioritario...");
+    }
+
+    desconectarServidorCorreo(): void {
+        console.log("Desconectando del servidor de correo prioritario...");
+    }
+}
+
+// Cliente
+const envioNormal = new EnvioCorreoNormal();
+const envioPrioritario = new EnvioCorreoPrioritario();
+
+console.log("Envío de correo normal:");
+envioNormal.enviar();
+
+console.log("\nEnvío de correo prioritario:");
+envioPrioritario.enviar();
+
+```
+
+
+
+
+
 ### Visitor<a name="visitor"></a>
 
 ---
