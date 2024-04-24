@@ -605,6 +605,81 @@ dbConnection1.connect(); // Output: Conexión a la base de datos establecida.
 Los patrones estructurales explican cómo ensamblar objetos y clases en estructuras más grandes, a la vez que se mantiene la flexibilidad y eficiencia de estas estructuras.
 
 ### Adapter<a name="adapter"></a>
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+
+#### Propósito 
+
+Permitir que objetos con interfaces incompatibles puedan colaborar entre sí. Esto se logra creando un adaptador que actúa como un intermediario entre dos interfaces diferentes, permitiendo que interactúen sin necesidad de modificar su código fuente.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Permite la colaboración entre objetos con interfaces incompatibles | Puede introducir complejidad adicional en el código |
+| Reutilización de código existente                   | Puede afectar el rendimiento                         |
+| Facilita la integración de sistemas existentes      |                                                     |
+
+
+
+#### Problema
+
+Consideremos que tenemos una aplicación que utiliza un servicio de mapas externo para mostrar ubicaciones. Sin embargo, el servicio de mapas tiene una interfaz incompatible con nuestra aplicación. Utilizaremos el patrón Adapter para adaptar la interfaz del servicio de mapas externo a la interfaz que espera nuestra aplicación.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Interfaz del servicio de mapas externo
+interface ServicioMapasExterno {
+    mostrarMapa(ubicacion: string): void;
+}
+
+// Implementación del servicio de mapas externo
+class ServicioMapasTerceros implements ServicioMapasExterno {
+    mostrarMapa(ubicacion: string): void {
+        console.log(`Mostrando mapa en ${ubicacion} a través del servicio de mapas externo.`);
+    }
+}
+
+// Interfaz esperada por nuestra aplicación
+interface ServicioMapas {
+    verMapa(ubicacion: string): void;
+}
+
+// Adaptador que convierte la interfaz del servicio de mapas externo a la interfaz de nuestra aplicación
+class AdaptadorServicioMapas implements ServicioMapas {
+    private servicioMapasExterno: ServicioMapasExterno;
+
+    constructor(servicioMapasExterno: ServicioMapasExterno) {
+        this.servicioMapasExterno = servicioMapasExterno;
+    }
+
+    verMapa(ubicacion: string): void {
+        // Llamar al método del servicio de mapas externo a través del adaptador
+        this.servicioMapasExterno.mostrarMapa(ubicacion);
+    }
+}
+
+// Cliente
+const servicioMapasTerceros = new ServicioMapasTerceros();
+const adaptadorServicioMapas = new AdaptadorServicioMapas(servicioMapasTerceros);
+
+// Utilizar el servicio de mapas a través del adaptador
+adaptadorServicioMapas.verMapa('Nueva York');
+
+```
+
+
+
+
+
 ### Bridge<a name="bridge"></a>
 ### Composite<a name="composite"></a>
 ### Decorator<a name="decorator"></a>
