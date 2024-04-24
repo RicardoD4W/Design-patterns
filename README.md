@@ -2,7 +2,7 @@
 
 1. [Patrones de diseño](#diseño)
     1. [¿Qué es un patrón de diseño?](#diseño-1)
-    2. [¿En qué consiste el patrón?](#diseño-2)
+    2. [¿En qué consiste los patrones de diseño?](#diseño-2)
     3. [¿Por qué debería aprender sobre patrones?](#diseño-3)
     4. [Crítica de los patrones](#diseño-4)
     5. [Clasificación de los patrones](#diseño-5)
@@ -41,17 +41,14 @@
 
 * ### ¿Qué es un patrón de diseño?<a name="diseño-1"></a>
 
-**`Los patrones de diseño son soluciones habituales a problemas que ocurren con frecuencia en el diseño de software`**. Son como planos prefabricados que se pueden personalizar para resolver un problema de diseño recurrente en tu código.
+**`Los patrones de diseño son soluciones habituales a problemas que ocurren con frecuencia en el diseño de software`**.  Son como planos prefabricados que se pueden personalizar para resolver un problema de diseño recurrente en tu código.
 
 ***No se puede elegir un patrón y copiarlo*** en el programa como si se tratara de funciones o bibliotecas ya preparadas. El patrón no es una porción específica de código, sino un concepto general para resolver un problema particular. Puedes seguir los detalles del patrón e implementar una solución que encaje con las realidades de tu propio programa.
 
-A menudo los patrones se confunden con algoritmos porque ambos conceptos describen soluciones típicas a problemas conocidos. Mientras que un algoritmo siempre define un grupo claro de acciones para lograr un objetivo, **`un patrón es una descripción de más alto nivel de una solución`**. El código del mismo patrón aplicado a dos programas distintos puede ser diferente.
-
-Una analogía de un algoritmo sería una receta de cocina: ambos cuentan con pasos claros para alcanzar una meta. Por su parte, un patrón es más similar a un plano, ya que puedes observar cómo son su resultado y sus funciones, pero el orden exacto de la implementación depende de ti.
+A menudo los patrones se confunden con algoritmos porque ambos conceptos describen soluciones típicas a problemas conocidos. Mientras que un algoritmo siempre define un grupo claro de acciones para lograr un objetivo, un patrón es una descripción de más alto nivel de una solución. El código del mismo patrón aplicado a dos programas distintos puede ser diferente.
 
 
-
-* ### ¿En qué consiste el patrón?<a name="diseño-2"></a>
+* ### ¿En qué consiste los patrones de diseño?<a name="diseño-2"></a>
 
 La mayoría de los patrones se describe con mucha formalidad para que la gente pueda reproducirlos en muchos contextos. Aquí tienes las secciones que suelen estar presentes en la descripción de un patrón:
 
@@ -67,27 +64,28 @@ La mayoría de los patrones se describe con mucha formalidad para que la gente p
 
 
 
+
 * ### ¿Por qué debería aprender sobre patrones?<a name="diseño-3"></a>
 
 ***La realidad es que podrías trabajar durante años como programador sin conocer un solo patrón***. Mucha gente lo hace. Incluso en ese caso, podrías estar implementando patrones sin saberlo. Así que, ¿por qué dedicar tiempo a aprenderlos?
 
 **`Los patrones de diseño son un juego de herramientas de soluciones comprobadas a problemas habituales en el diseño de software`**. Incluso aunque nunca te encuentres con estos problemas, conocer los patrones sigue siendo de utilidad, porque te enseña a resolver todo tipo de problemas utilizando principios del diseño orientado a objetos.
 
-**`Los patrones de diseño definen un lenguaje común`** que puedes utilizar con tus compañeros de equipo para comunicaros de forma más eficiente. Podrías decir: “Oh, utiliza un singleton para eso”, y todos entenderían la idea de tu sugerencia. No habría necesidad de explicar qué es un singleton si conocen el patrón y su nombre.
+**`Los patrones de diseño definen un lenguaje común`** que puedes utilizar con tus compañeros de equipo para comunicaros de forma más eficiente.
 
 
 * ### Crítica de los patrones<a name="diseño-4"></a>
 
-Da la sensación de que todos los holgazanes han criticado ya los patrones de diseño. Veamos los argumentos más habituales contra el uso de los patrones.
+Las principales críticas hacia los patrones de diseño suelen ser las siguientes: 
 
-#### Chapuzas para un lenguaje de programación débil 
+#### "Chapuzas para un lenguaje de programación débil"
 Normalmente, la necesidad por los patrones surge cuando la gente elige un lenguaje de programación o una tecnología que carece del nivel necesario de abstracción. En este caso, los patrones se convierten en una chapuza que otorga al lenguaje unas súper habilidades muy necesitadas.
 
 
-#### Soluciones ineficientes
+#### "Soluciones ineficientes"
 Los patrones intentan sistematizar soluciones cuyo uso ya es generalizado. Esta unificación es vista por muchos como un dogma, e implementan los patrones “al pie de la letra”, sin adaptarlos al contexto del proyecto particular.
 
-### Uso injustificado
+### "Uso injustificado"
  > Es tentador tratar todo como si fuera un clavo, si la única herramienta que tienes es un martillo — Abraham Maslow
 
 
@@ -98,7 +96,7 @@ Este es el problema que persigue a muchos principiantes que acaban de familiariz
 
 * ### Clasificación de los patrones<a name="diseño-5"></a>
 
-Los patrones de diseño varían en su complejidad, nivel de detalle y escala de aplicabilidad al sistema completo que se diseña. Me gusta la analogía de la construcción de carreteras: puedes hacer más segura una intersección instalando semáforos o construyendo un intercambiador completo de varios niveles con pasajes subterráneos para peatones.
+Los patrones de diseño varían en su complejidad, nivel de detalle y escala de aplicabilidad al sistema completo que se diseña.
 
 Los patrones más básicos y de más bajo nivel suelen llamarse `idioms`. Normalmente se aplican a un único lenguaje de programación.
 
@@ -106,11 +104,11 @@ Los patrones más universales y de más alto nivel son los `patrones de arquitec
 
 Además, **todos los patrones pueden clasificarse por su propósito:**
 
-* ***Los patrones creacionales***. Proporcionan mecanismos de creación de objetos que incrementan la flexibilidad y la reutilización de código existente.
+* ***[Los patrones creacionales](#patrones-creacionales)***. Proporcionan mecanismos de creación de objetos que incrementan la flexibilidad y la reutilización de código existente.
 
-* ***Los patrones estructurales***. Explican cómo ensamblar objetos y clases en estructuras más grandes a la vez que se mantiene la flexibilidad y eficiencia de la estructura.
+* ***[Los patrones estructurales](#patrones-estructurales)***. Explican cómo ensamblar objetos y clases en estructuras más grandes a la vez que se mantiene la flexibilidad y eficiencia de la estructura.
 
-* ***Los patrones de comportamiento***. Se encargan de una comunicación efectiva y la asignación de responsabilidades entre objetos.
+* ***[Los patrones de comportamiento](#patrones-de-comportamiento)***. Se encargan de una comunicación efectiva y la asignación de responsabilidades entre objetos.
 
 ---
 
