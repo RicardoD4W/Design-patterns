@@ -1136,6 +1136,76 @@ for (let i = 0; i < tiposIconos.length; i++) {
 ### Proxy<a name="proxy"></a>
 
 
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★✰✰** |
+
+
+#### Propósito 
+
+Proporcionar un representante o sustituto de otro objeto para controlar el acceso a este objeto. Esto permite agregar funcionalidades adicionales, como la verificación de permisos, la carga perezosa o el caché, sin modificar el objeto original.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Controla el acceso al objeto original               | Aumenta la complejidad del código                   |
+| Permite agregar funcionalidades adicionales         | Puede introducir un nivel adicional de indirección  |
+| Facilita la implementación de técnicas como la carga perezosa o el caché |                                                 |
+
+
+
+#### Problema
+
+Consideremos que tenemos una aplicación que carga imágenes desde un servidor remoto. Queremos implementar una funcionalidad de caché para almacenar las imágenes cargadas recientemente y evitar la carga repetida de la misma imagen.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Sujeto: Interfaz para cargar imágenes
+interface CargadorImagen {
+    cargarImagen(nombre: string): void;
+}
+
+// Sujeto real: Implementación concreta del cargador de imágenes
+class CargadorImagenReal implements CargadorImagen {
+    cargarImagen(nombre: string): void {
+        console.log(`Cargando imagen '${nombre}' desde el servidor remoto...`);
+    }
+}
+
+// Proxy: Implementación del proxy para controlar el acceso al cargador de imágenes real
+class ProxyCargadorImagen implements CargadorImagen {
+    private cargadorReal: CargadorImagenReal;
+    private cache: string[] = [];
+
+    constructor() {
+        this.cargadorReal = new CargadorImagenReal();
+    }
+
+    cargarImagen(nombre: string): void {
+        if (this.cache.includes(nombre)) {
+            console.log(`Obteniendo imagen '${nombre}' desde el caché...`);
+        } else {
+            this.cargadorReal.cargarImagen(nombre);
+            this.cache.push(nombre);
+        }
+    }
+}
+
+// Cliente
+const proxyCargador = new ProxyCargadorImagen();
+
+// Cargar imágenes utilizando el proxy
+proxyCargador.cargarImagen('imagen1.jpg'); // Se carga desde el servidor remoto
+proxyCargador.cargarImagen('imagen2.jpg'); // Se carga desde el servidor remoto
+proxyCargador.cargarImagen('imagen1.jpg'); // Se obtiene desde el caché
+
+```
+
 ---
 
 ## Patrones de comportamiento<a name="comportamiento"></a>
