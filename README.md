@@ -776,12 +776,197 @@ reproductorMusica.reproducir(); // Reproducir música en altavoz
 
 ### Composite<a name="composite"></a>
 
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
 
+
+#### Propósito 
+
+Componer objetos en estructuras de árbol para representar jerarquías parte-todo. Esto permite tratar tanto a los objetos individuales como a las composiciones de objetos de manera uniforme, lo que simplifica el diseño y la manipulación de las estructuras.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Permite manejar estructuras de árbol de manera uniforme | Puede complicar el diseño y la implementación      |
+| Facilita la manipulación y navegación en estructuras complejas | Puede resultar menos eficiente en ciertos casos    |
+| Proporciona flexibilidad en la construcción de objetos compuestos |                                                     |
+
+
+
+#### Problema
+
+Consideremos que necesitamos representar una jerarquía de elementos de menú, donde cada elemento puede ser un elemento de menú simple o un menú compuesto que contiene subelementos. Queremos poder mostrar el menú completo y realizar operaciones como agregar o eliminar elementos.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Componente: Elemento de menú
+interface ElementoMenu {
+    mostrar(): void;
+}
+
+// Hoja: Elemento de menú simple
+class ElementoMenuSimple implements ElementoMenu {
+    constructor(private nombre: string) {}
+
+    mostrar(): void {
+        console.log(`- ${this.nombre}`);
+    }
+}
+
+// Compuesto: Menú
+class Menu implements ElementoMenu {
+    private elementos: ElementoMenu[] = [];
+
+    agregarElemento(elemento: ElementoMenu): void {
+        this.elementos.push(elemento);
+    }
+
+    eliminarElemento(elemento: ElementoMenu): void {
+        const indice = this.elementos.indexOf(elemento);
+        if (indice !== -1) {
+            this.elementos.splice(indice, 1);
+        }
+    }
+
+    mostrar(): void {
+        console.log('Menú:');
+        this.elementos.forEach(elemento => elemento.mostrar());
+    }
+}
+
+// Cliente
+const menuPrincipal = new Menu();
+const menuDesayuno = new Menu();
+
+const elementoPizza = new ElementoMenuSimple('Pizza');
+const elementoEnsalada = new ElementoMenuSimple('Ensalada');
+const elementoCafe = new ElementoMenuSimple('Café');
+const elementoJugo = new ElementoMenuSimple('Jugo');
+
+menuPrincipal.agregarElemento(elementoPizza);
+menuPrincipal.agregarElemento(elementoEnsalada);
+menuDesayuno.agregarElemento(elementoCafe);
+menuDesayuno.agregarElemento(elementoJugo);
+
+menuPrincipal.mostrar();                
+console.log('---');
+menuDesayuno.mostrar();
+
+/*
+Menú:
+- Pizza
+- Ensalada
+---
+Menú:
+- Café
+- Jugo
+
+*/
+
+```
 
 
 
 
 ### Decorator<a name="decorator"></a>
+
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
+
+
+#### Propósito 
+
+Agregar funcionalidades adicionales a objetos existentes de manera dinámica y flexible, sin modificar su estructura. Esto permite extender las capacidades de los objetos de forma modular y sin necesidad de modificar su código original.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Añade funcionalidades de forma flexible y dinámica | Puede generar una gran cantidad de clases decoradoras |
+| Permite extender las capacidades de los objetos de forma modular | Puede aumentar la complejidad del código             |
+| Facilita la combinación de funcionalidades         |                                                     |
+
+
+
+#### Problema
+
+Consideremos que tenemos una aplicación de edición de texto que permite aplicar diferentes formatos a un texto, como negrita, cursiva y subrayado. Queremos que los usuarios puedan aplicar múltiples formatos al texto de forma flexible.
+
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Componente: Interfaz Texto
+interface Texto {
+    contenido(): string;
+}
+
+// Componente concreto: Implementación del texto
+class TextoSimple implements Texto {
+    constructor(private contenidoTexto: string) {}
+
+    contenido(): string {
+        return this.contenidoTexto;
+    }
+}
+
+// Decorador abstracto: Decorador de texto
+abstract class DecoradorTexto implements Texto {
+    constructor(protected texto: Texto) {}
+
+    abstract contenido(): string;
+}
+
+// Decorador concreto: Negrita
+class Negrita extends DecoradorTexto {
+    contenido(): string {
+        return `<b>${this.texto.contenido()}</b>`;
+    }
+}
+
+// Decorador concreto: Cursiva
+class Cursiva extends DecoradorTexto {
+    contenido(): string {
+        return `<i>${this.texto.contenido()}</i>`;
+    }
+}
+
+// Decorador concreto: Subrayado
+class Subrayado extends DecoradorTexto {
+    contenido(): string {
+        return `<u>${this.texto.contenido()}</u>`;
+    }
+}
+
+// Cliente
+let texto: Texto = new TextoSimple("Hola, mundo!");
+
+// Aplicar decoradores
+texto = new Negrita(texto);
+texto = new Cursiva(texto);
+texto = new Subrayado(texto);
+
+// Mostrar el texto con los decoradores aplicados
+console.log(texto.contenido()); // Output: <u><i><b>Hola, mundo!</b></i></u>
+
+```
+
+
+
+
 ### Facade<a name="facade"></a>
 ### Flyweight<a name="flyweight"></a>
 ### Proxy<a name="proxy"></a>
