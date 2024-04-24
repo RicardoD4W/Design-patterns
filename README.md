@@ -1739,6 +1739,140 @@ editorNoticias.publicarNoticia("Se lanza un nuevo producto");
 
 
 ### State<a name="state"></a>
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
+
+
+#### Propósito 
+
+Permitir que un objeto altere su comportamiento cuando su estado interno cambia. El objeto aparecerá como si cambiara su clase.
+
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Facilita la gestión de estados y comportamientos complejos | Puede aumentar la complejidad del código            |
+| Promueve un diseño más flexible y mantenible        | Puede requerir la implementación de múltiples clases de estado |
+| Permite que el objeto cambie su comportamiento dinámicamente |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos un reproductor de música que puede reproducir, pausar y detener la reproducción. Queremos implementar el patrón State para que el reproductor cambie su comportamiento dependiendo de su estado actual (reproduciendo, pausado o detenido).
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Estado: Interfaz para los estados del reproductor
+interface EstadoReproductor {
+    reproducir(): void;
+    pausar(): void;
+    detener(): void;
+}
+
+// Contexto: Clase que representa al reproductor y mantiene una referencia al estado actual
+class ReproductorMusica {
+    private estadoActual: EstadoReproductor;
+
+    constructor() {
+        // El estado inicial es detenido
+        this.estadoActual = new EstadoDetenido(this);
+    }
+
+    // Métodos para cambiar el estado del reproductor
+    cambiarEstado(estado: EstadoReproductor): void {
+        this.estadoActual = estado;
+    }
+
+    reproducir(): void {
+        this.estadoActual.reproducir();
+    }
+
+    pausar(): void {
+        this.estadoActual.pausar();
+    }
+
+    detener(): void {
+        this.estadoActual.detener();
+    }
+}
+
+// Estados concretos: Implementaciones de los estados del reproductor
+class EstadoReproduciendo implements EstadoReproductor {
+    constructor(private reproductor: ReproductorMusica) {}
+
+    reproducir(): void {
+        console.log("La canción ya está reproduciendo");
+    }
+
+    pausar(): void {
+        console.log("Canción en pausa");
+        this.reproductor.cambiarEstado(new EstadoPausado(this.reproductor));
+    }
+
+    detener(): void {
+        console.log("Canción detenida");
+        this.reproductor.cambiarEstado(new EstadoDetenido(this.reproductor));
+    }
+}
+
+class EstadoPausado implements EstadoReproductor {
+    constructor(private reproductor: ReproductorMusica) {}
+
+    reproducir(): void {
+        console.log("Continuando la reproducción");
+        this.reproductor.cambiarEstado(new EstadoReproduciendo(this.reproductor));
+    }
+
+    pausar(): void {
+        console.log("La canción ya está en pausa");
+    }
+
+    detener(): void {
+        console.log("Canción detenida");
+        this.reproductor.cambiarEstado(new EstadoDetenido(this.reproductor));
+    }
+}
+
+class EstadoDetenido implements EstadoReproductor {
+    constructor(private reproductor: ReproductorMusica) {}
+
+    reproducir(): void {
+        console.log("Reproduciendo la canción");
+        this.reproductor.cambiarEstado(new EstadoReproduciendo(this.reproductor));
+    }
+
+    pausar(): void {
+        console.log("La canción está detenida, no se puede pausar");
+    }
+
+    detener(): void {
+        console.log("El reproductor ya está detenido");
+    }
+}
+
+// Cliente
+const reproductor = new ReproductorMusica();
+
+// Simular operaciones de reproducción
+reproductor.reproducir(); // Imprime "Reproduciendo la canción"
+reproductor.pausar();    // Imprime "Canción en pausa"
+reproductor.reproducir(); // Imprime "Continuando la reproducción"
+reproductor.detener();   // Imprime "Canción detenida"
+
+```
+
+
+
+
+
 ### Strategy<a name="strategy"></a>
 ### Template Method<a name="template-method"></a>
 ### Visitor<a name="visitor"></a>
