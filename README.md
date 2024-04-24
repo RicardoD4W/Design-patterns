@@ -1354,9 +1354,9 @@ class EditorTexto {
 const editor = new EditorTexto();
 
 // Ejecutar comandos
-const comandoCopiar = new ComandoCopiar("Texto seleccionado");
-const comandoCortar = new ComandoCortar("Texto seleccionado");
-const comandoPegar = new ComandoPegar("Texto copiado");
+const comandoCopiar = new ComandoCopiar("Texto copiado");
+const comandoCortar = new ComandoCortar("Texto cortado");
+const comandoPegar = new ComandoPegar("Texto pegado");
 
 editor.ejecutarComando(comandoCopiar);
 editor.ejecutarComando(comandoCortar);
