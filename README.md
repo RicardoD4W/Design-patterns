@@ -1550,6 +1550,98 @@ usuario3.enviarMensaje("Hola María");
 
 
 ### Memento<a name="memento"></a>
+
+
+| **Complejidad** | **★★★** |
+| ----- | ----  |
+| **Popularidad** | **★✰✰** |
+
+
+#### Propósito 
+
+Capturar y externalizar el estado interno de un objeto sin violar la encapsulación, de modo que el objeto pueda ser restaurado a ese estado más tarde. Esto permite implementar la funcionalidad "deshacer" o "volver atrás" en una aplicación, así como mantener un historial de cambios.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Permite la restauración de un objeto a un estado anterior | Puede aumentar la complejidad de implementación     |
+| Proporciona un mecanismo de "deshacer" o "volver atrás" | Requiere el almacenamiento de múltiples instantáneas del estado |
+| Facilita la implementación de patrones como "Command" o "Snapshot" |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos un un editor de texto que permite al usuario escribir y modificar contenido. Queremos implementar una funcionalidad de "deshacer" que permita al usuario revertir los cambios realizados en el texto.
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Memento: Clase para almacenar el estado del editor de texto
+class MementoTexto {
+    constructor(private estado: string) {}
+
+    obtenerEstado(): string {
+        return this.estado;
+    }
+}
+
+// Editor de texto: Clase para representar el editor de texto
+class EditorTexto {
+    private contenido: string = "";
+
+    escribirTexto(texto: string): void {
+        this.contenido += texto;
+    }
+
+    obtenerTexto(): string {
+        return this.contenido;
+    }
+
+    guardarEstado(): MementoTexto {
+        return new MementoTexto(this.contenido);
+    }
+
+    restaurarEstado(memento: MementoTexto): void {
+        this.contenido = memento.obtenerEstado();
+    }
+}
+
+// Caretaker: Clase que gestiona los estados del editor de texto
+class GestorEstados {
+    private estados: MementoTexto[] = [];
+
+    guardarEstado(memento: MementoTexto): void {
+        this.estados.push(memento);
+    }
+
+    obtenerEstado(index: number): MementoTexto {
+        return this.estados[index];
+    }
+}
+
+// Cliente
+const editor = new EditorTexto();
+const gestorEstados = new GestorEstados();
+
+// Escribir y guardar estados del editor de texto
+editor.escribirTexto("Hola, ");
+gestorEstados.guardarEstado(editor.guardarEstado());
+
+editor.escribirTexto("¿cómo estás?");
+gestorEstados.guardarEstado(editor.guardarEstado());
+
+// Restaurar estado anterior del editor de texto
+editor.restaurarEstado(gestorEstados.obtenerEstado(0));
+console.log("Texto actual después de deshacer: ", editor.obtenerTexto());
+
+```
+
+
+
+
 ### Observer<a name="observer"></a>
 ### State<a name="state"></a>
 ### Strategy<a name="strategy"></a>
