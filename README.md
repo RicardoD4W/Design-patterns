@@ -1466,6 +1466,89 @@ while (iterador.tieneSiguiente()) {
 
 
 ### Mediator<a name="mediator"></a>
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **✰✰✰** |
+
+
+#### Propósito 
+
+Definir un objeto que encapsula cómo un conjunto de objetos interactúan entre sí, promoviendo un acoplamiento débil al evitar que los objetos se refieran directamente entre sí. El mediador actúa como intermediario entre los objetos y facilita la comunicación y la coordinación entre ellos.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Desacopla los componentes del sistema               | Puede introducir un punto único de fallo            |
+| Facilita la reutilización de los componentes        | Puede aumentar la complejidad del mediador          |
+| Promueve un diseño más flexible y mantenible        | Puede ser difícil de implementar en sistemas grandes |                                                 |
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de chat donde múltiples usuarios pueden enviar mensajes entre sí. Queremos implementar un mediador para facilitar la comunicación entre los usuarios.
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Mediador: Interfaz para el mediador
+interface Mediador {
+    enviarMensaje(mensaje: string, remitente: Usuario): void;
+}
+
+// Usuario: Clase para representar a un usuario
+class Usuario {
+    constructor(private nombre: string, private mediador: Mediador) {}
+
+    enviarMensaje(mensaje: string): void {
+        console.log(`${this.nombre} envía mensaje: ${mensaje}`);
+        this.mediador.enviarMensaje(mensaje, this);
+    }
+
+    recibirMensaje(mensaje: string): void {
+        console.log(`${this.nombre} recibe mensaje: ${mensaje}`);
+    }
+}
+
+// Mediador concreto: Implementación del mediador para el chat
+class MediadorChat implements Mediador {
+    private usuarios: Usuario[] = [];
+
+    agregarUsuario(usuario: Usuario): void {
+        this.usuarios.push(usuario);
+    }
+
+    enviarMensaje(mensaje: string, remitente: Usuario): void {
+        this.usuarios.forEach((usuario) => {
+            if (usuario !== remitente) {
+                usuario.recibirMensaje(mensaje);
+            }
+        });
+    }
+}
+
+// Cliente
+const mediador = new MediadorChat();
+
+const usuario1 = new Usuario("Juan", mediador);
+const usuario2 = new Usuario("María", mediador);
+const usuario3 = new Usuario("Pedro", mediador);
+
+mediador.agregarUsuario(usuario1);
+mediador.agregarUsuario(usuario2);
+mediador.agregarUsuario(usuario3);
+
+// Simular conversación entre usuarios
+usuario1.enviarMensaje("Hola a todos");
+usuario2.enviarMensaje("Hola Juan");
+usuario3.enviarMensaje("Hola María");
+
+```
+
+
 ### Memento<a name="memento"></a>
 ### Observer<a name="observer"></a>
 ### State<a name="state"></a>
