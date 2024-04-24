@@ -1,2 +1,25 @@
-# Patrones-de-dise-o
-Un repositorio con diversos patrones de diseño que podrás implementar para mejorar tu código y su escalabilidad así como la legibilidad y capacidad de depuración y mantenimiento  
+# **Índice**  
+
+1. [Patrones de diseño](#diseño)
+    1. [Patrones creacionales](#creacionales)
+    2. [Patrones estructurales](#estructurales)
+
+
+--- 
+
+# Patrones de diseño<a name="diseño"></a>
+
+
+---
+
+
+## Patrones creacionales<a name="creacionales"></a>
+
+---
+
+
+
+## Patrones estructurales<a name="estructurales"></a>
+
+
+---
