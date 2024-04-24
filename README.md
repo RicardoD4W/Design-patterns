@@ -2061,7 +2061,110 @@ envioPrioritario.enviar();
 
 ### Visitor<a name="visitor"></a>
 
----
+
+
+| **Complejidad** | **★★★** |
+| ----- | ----  |
+| **Popularidad** | **★✰✰** |
+
+
+#### Propósito 
+
+Separar un algoritmo de la estructura de un objeto sobre el cual opera. Permite agregar nuevas operaciones a objetos existentes sin modificar su estructura.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Permite agregar nuevas operaciones a una jerarquía de clases sin modificar su estructura | Puede aumentar la complejidad de la jerarquía de clases |
+| Facilita la separación de responsabilidades        | Puede ser difícil de entender en sistemas complejos  |
+| Promueve un diseño flexible y mantenible           |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos una aplicación de dibujo que puede contener diferentes tipos de formas, como círculos y rectángulos. Queremos implementar una función que calcule el área total de todas las formas en el dibujo.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Interfaz común para todas las formas
+interface Forma {
+    accept(visitor: Visitor): void;
+}
+
+// Clase concreta para un círculo
+class Circulo implements Forma {
+    constructor(private radio: number) {}
+
+    accept(visitor: Visitor): void {
+        visitor.visitCirculo(this);
+    }
+
+    getRadio(): number {
+        return this.radio;
+    }
+}
+
+// Clase concreta para un rectángulo
+class Rectangulo implements Forma {
+    constructor(private ancho: number, private alto: number) {}
+
+    accept(visitor: Visitor): void {
+        visitor.visitRectangulo(this);
+    }
+
+    getAncho(): number {
+        return this.ancho;
+    }
+
+    getAlto(): number {
+        return this.alto;
+    }
+}
+
+// Interfaz del visitor
+interface Visitor {
+    visitCirculo(circulo: Circulo): void;
+    visitRectangulo(rectangulo: Rectangulo): void;
+}
+
+// Visitor concreto para calcular el área total de todas las formas
+class CalculadorAreaVisitor implements Visitor {
+    private areaTotal: number = 0;
+
+    visitCirculo(circulo: Circulo): void {
+        this.areaTotal += Math.PI * Math.pow(circulo.getRadio(), 2);
+    }
+
+    visitRectangulo(rectangulo: Rectangulo): void {
+        this.areaTotal += rectangulo.getAncho() * rectangulo.getAlto();
+    }
+
+    getAreaTotal(): number {
+        return this.areaTotal;
+    }
+}
+
+// Cliente
+const formas: Forma[] = [
+    new Circulo(5),
+    new Rectangulo(4, 6),
+    new Circulo(3)
+];
+
+const calculadorAreaVisitor = new CalculadorAreaVisitor();
+
+// Calcular el área total de todas las formas en el dibujo
+formas.forEach(forma => forma.accept(calculadorAreaVisitor));
+
+console.log("Área total de todas las formas:", calculadorAreaVisitor.getAreaTotal());
+
+```
+
 
 
 
