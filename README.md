@@ -546,7 +546,7 @@ Garantizar que una clase tenga una única instancia y proporcionar un punto de a
 
 | Pros                                                | Contras                                             |
 |-----------------------------------------------------|-----------------------------------------------------|
-| Garantiza una única instancia de la clase           | Violación del principio de responsabilidad única (```S```OLID)    |
+| Garantiza una única instancia de la clase           | Violación del principio de responsabilidad única ([```S```OLID](https://github.com/RicardoD4w/Buenas-Practicas-Clean-Code-Version?tab=readme-ov-file#srp))    |
 | Proporciona un punto de acceso global               | Dificulta la prueba unitaria                        |
 | Evita la creación de múltiples instancias           |                                                     |
 
