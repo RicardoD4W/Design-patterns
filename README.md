@@ -1643,6 +1643,101 @@ console.log("Texto actual después de deshacer: ", editor.obtenerTexto());
 
 
 ### Observer<a name="observer"></a>
+
+
+| **Complejidad** | **★★✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+
+#### Propósito 
+
+Establecer una relación uno a muchos entre objetos, de modo que cuando el estado de uno de los objetos cambie, todos los objetos dependientes sean notificados y actualizados automáticamente. Esto permite mantener la consistencia entre los objetos y asegura que los cambios en un objeto se reflejen en otros objetos relacionados.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Desacopla el sujeto observable de sus observadores  | Puede haber una sobrecarga de notificaciones        |
+| Permite la actualización automática de los observadores cuando cambia el estado del sujeto observable | Puede ser difícil de depurar en sistemas complejos   |
+| Facilita la implementación de sistemas distribuidos y basados en eventos |                                                     |
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de noticias donde múltiples suscriptores desean recibir actualizaciones cuando se publiquen nuevas noticias. Queremos implementar un sistema utilizando el patrón Observer para notificar automáticamente a los suscriptores cuando se publiquen nuevas noticias.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Sujeto observable: Interfaz para el sujeto observable
+interface SujetoObservable {
+    registrarObservador(observador: Observador): void;
+    eliminarObservador(observador: Observador): void;
+    notificarObservadores(): void;
+}
+
+// Observador: Interfaz para los observadores
+interface Observador {
+    actualizar(nuevaNoticia: string): void;
+}
+
+// Sujeto concreto observable: Implementación del sujeto observable (Editor de noticias)
+class EditorNoticias implements SujetoObservable {
+    private observadores: Observador[] = [];
+    private ultimaNoticia: string = "";
+
+    registrarObservador(observador: Observador): void {
+        this.observadores.push(observador);
+    }
+
+    eliminarObservador(observador: Observador): void {
+        this.observadores = this.observadores.filter(obs => obs !== observador);
+    }
+
+    notificarObservadores(): void {
+        this.observadores.forEach(observador => {
+            observador.actualizar(this.ultimaNoticia);
+        });
+    }
+
+    public publicarNoticia(nuevaNoticia: string): void {
+        this.ultimaNoticia = nuevaNoticia;
+        this.notificarObservadores();
+    }
+}
+
+// Observador concreto: Implementación del observador (Suscriptor de noticias)
+class SuscriptorNoticias implements Observador {
+    constructor(private nombre: string) {}
+
+    actualizar(nuevaNoticia: string): void {
+        console.log(`${this.nombre} recibe la nueva noticia: ${nuevaNoticia}`);
+    }
+}
+
+// Cliente
+const editorNoticias = new EditorNoticias();
+
+const suscriptor1 = new SuscriptorNoticias("Juan");
+const suscriptor2 = new SuscriptorNoticias("María");
+const suscriptor3 = new SuscriptorNoticias("Pedro");
+
+editorNoticias.registrarObservador(suscriptor1);
+editorNoticias.registrarObservador(suscriptor2);
+editorNoticias.registrarObservador(suscriptor3);
+
+// Publicar nueva noticia
+editorNoticias.publicarNoticia("Se lanza un nuevo producto");
+
+```
+
+
+
+
 ### State<a name="state"></a>
 ### Strategy<a name="strategy"></a>
 ### Template Method<a name="template-method"></a>
