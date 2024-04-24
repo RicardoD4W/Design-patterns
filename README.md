@@ -968,6 +968,95 @@ console.log(texto.contenido()); // Output: <u><i><b>Hola, mundo!</b></i></u>
 
 
 ### Facade<a name="facade"></a>
+
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
+
+
+#### Propósito 
+
+Proporcionar una interfaz unificada y simplificada para un conjunto complejo de subsistemas. Esto permite ocultar la complejidad y la interacción entre los subsistemas, proporcionando a los clientes una interfaz fácil de usar para acceder a la funcionalidad del sistema.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Oculta la complejidad del sistema                   | Puede limitar la flexibilidad                        |
+| Proporciona una interfaz simple y unificada         | Puede introducir un acoplamiento adicional entre el cliente y los subsistemas |
+| Simplifica el mantenimiento y la modificación del sistema |                                                     |
+
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de compras en línea que consta de varios subsistemas, como el catálogo de productos, el carrito de compras y el proceso de pago. Queremos simplificar el proceso de compra para los clientes proporcionando una interfaz unificada que maneje la interacción con todos estos subsistemas.
+
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Subsistema: Catálogo de productos
+class CatalogoProductos {
+    buscarProducto(nombre: string): string {
+        // Simulación de búsqueda de producto
+        return `Producto encontrado: ${nombre}`;
+    }
+}
+
+// Subsistema: Carrito de compras
+class CarritoCompras {
+    agregarProducto(nombre: string): void {
+        // Simulación de agregar producto al carrito
+        console.log(`Producto agregado al carrito: ${nombre}`);
+    }
+}
+
+// Subsistema: Proceso de pago
+class ProcesoPago {
+    realizarPago(precio: number): void {
+        // Simulación de proceso de pago
+        console.log(`Pago realizado por un precio de ${precio} USD`);
+    }
+}
+
+// Facade: Interfaz unificada para el sistema de compras en línea
+class ComprasEnLinea {
+    constructor(
+        private catalogo: CatalogoProductos,
+        private carrito: CarritoCompras,
+        private pago: ProcesoPago
+    ) {}
+
+    comprarProducto(nombre: string, precio: number): void {
+        console.log(this.catalogo.buscarProducto(nombre));
+        this.carrito.agregarProducto(nombre);
+        this.pago.realizarPago(precio);
+    }
+}
+
+// Cliente
+const catalogo = new CatalogoProductos();
+const carrito = new CarritoCompras();
+const procesoPago = new ProcesoPago();
+
+const compras = new ComprasEnLinea(catalogo, carrito, procesoPago);
+
+// Realizar una compra utilizando la interfaz unificada
+compras.comprarProducto('Camisa', 25.99);
+
+```
+
+
+
+
+
+
 ### Flyweight<a name="flyweight"></a>
 ### Proxy<a name="proxy"></a>
 
