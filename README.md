@@ -5,7 +5,6 @@
     2. [¿En qué consiste los patrones de diseño?](#diseño-2)
     3. [¿Por qué debería aprender sobre patrones?](#diseño-3)
     4. [Crítica de los patrones](#diseño-4)
-    5. [Clasificación de los patrones](#diseño-5)
 2. [Tipos de patrones](#tipos-patrones)
     1. [Patrones creacionales](#creacionales)
         1. [Factory Method](#factory-method)
@@ -97,7 +96,16 @@ Este es el problema que persigue a muchos principiantes que acaban de familiariz
 
 
 
-* ### Clasificación de los patrones<a name="diseño-5"></a>
+
+---
+
+
+
+
+
+
+
+# 2. Tipos de patrones<a name="tipos-patrones"></a>
 
 Los patrones de diseño varían en su complejidad, nivel de detalle y escala de aplicabilidad al sistema completo que se diseña.
 
@@ -112,17 +120,6 @@ Además, **todos los patrones pueden clasificarse por su propósito:**
 * ***[Los patrones estructurales](#patrones-estructurales)***. Explican cómo ensamblar objetos y clases en estructuras más grandes a la vez que se mantiene la flexibilidad y eficiencia de la estructura.
 
 * ***[Los patrones de comportamiento](#patrones-de-comportamiento)***. Se encargan de una comunicación efectiva y la asignación de responsabilidades entre objetos.
-
----
-
-
-
-
-
-
-
-# 2. Tipos de patrones<a name="tipos-patrones"></a>
-
 
 ## Patrones creacionales<a name="creacionales"></a>
 
