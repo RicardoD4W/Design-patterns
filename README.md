@@ -123,7 +123,38 @@ Además, **todos los patrones pueden clasificarse por su propósito:**
 
 ## Patrones creacionales<a name="creacionales"></a>
 
+ Los patrones creacionales proporcionan varios mecanismos de creación de objetos que incrementan la flexibilidad y la reutilización del código existente.
+
+
 ### Factory Method<a name="factory-method"></a>
+
+
+#### Propósito 
+
+Proporcionar una interfaz para crear objetos en una superclase, pero permitiendo a las subclases alterar el tipo de objetos que se crearán. Esto promueve la abstracción y la flexibilidad al encapsular la creación de objetos en métodos específicos que pueden ser implementados de manera diferente por las subclases.
+
+
+#### Problema
+
+Imagina que estás creando una aplicación de gestión logística. La primera versión de tu aplicación sólo es capaz de manejar el transporte en camión, por lo que la mayor parte de tu código se encuentra dentro de la clase Camión.
+
+Al cabo de un tiempo, tu aplicación se vuelve bastante popular. Cada día recibes decenas de peticiones de empresas de transporte marítimo para que incorpores la logística por mar a la aplicación.
+
+Estupendo, ¿verdad? Pero, ¿qué pasa con el código? En este momento, la mayor parte de tu código está acoplado a la clase Camión. Para añadir barcos a la aplicación habría que hacer cambios en toda la base del código. Además, si más tarde decides añadir otro tipo de transporte a la aplicación, probablemente tendrás que volver a hacer todos estos cambios.
+
+Al final acabarás con un código bastante sucio, plagado de condicionales que cambian el comportamiento de la aplicación dependiendo de la clase de los objetos de transporte
+
+
+#### Pros y contras
+
+| Pros                                    | Contras                                     |
+|-----------------------------------------|---------------------------------------------|
+| Flexibilidad                          | Complejidad adicional                     |
+| Abstracción                           | Diseño adicional necesario                |
+| Extensibilidad                        | Acoplamiento potencial                    |
+| Reutilización del código              | Sobrecarga inicial                        |
+ 
+
 ### Abstract Factory<a name="abstract-factory"></a>
 ### Builder<a name="builder"></a>
 ### Prototype<a name="prototype"></a>
