@@ -1058,6 +1058,81 @@ compras.comprarProducto('Camisa', 25.99);
 
 
 ### Flyweight<a name="flyweight"></a>
+
+
+| **Complejidad** | **★★★** |
+| ----- | ----  |
+| **Popularidad** | **✰✰✰** |
+
+
+#### Propósito 
+
+Minimizar el uso de memoria o recursos compartiendo lo máximo posible entre múltiples objetos. Esto se logra mediante el uso compartido de objetos que son idénticos o similares, reduciendo así la cantidad de objetos creados y optimizando el rendimiento del sistema.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Reduce el uso de memoria y optimiza el rendimiento  | Puede aumentar la complejidad del código             |
+| Mejora la eficiencia en sistemas con muchos objetos similares | No es adecuado para todos los tipos de objetos      |
+| Facilita la gestión de objetos en memoria          |                                                     |
+
+
+
+#### Problema
+
+Consideremos que tenemos una aplicación que muestra una gran cantidad de íconos en una interfaz gráfica de usuario. Cada ícono tiene propiedades únicas como tamaño, color y tipo. Queremos optimizar el rendimiento de la aplicación minimizando la cantidad de objetos ícono creados en memoria.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Flyweight: Interfaz del ícono
+interface Icono {
+    dibujar(): void;
+}
+
+// Flyweight concreto: Implementación del ícono compartido
+class IconoCompartido implements Icono {
+    constructor(private tipo: string) {}
+
+    dibujar(): void {
+        console.log(`Dibujando el ícono ${this.tipo}`);
+    }
+}
+
+// Fábrica de íconos: Gestiona la creación y almacenamiento de íconos compartidos
+class FabricaIconos {
+    private iconos: { [tipo: string]: Icono } = {};
+
+    obtenerIcono(tipo: string): Icono {
+        if (!this.iconos[tipo]) {
+            this.iconos[tipo] = new IconoCompartido(tipo);
+        }
+        return this.iconos[tipo];
+    }
+}
+
+// Cliente
+const fabricaIconos = new FabricaIconos();
+
+// Mostrar íconos en la GUI
+const tiposIconos = ['Archivo', 'Carpeta', 'Documento', 'Imagen'];
+const posiciones = [[10, 20], [30, 40], [50, 60], [70, 80]];
+
+for (let i = 0; i < tiposIconos.length; i++) {
+    const tipo = tiposIconos[i];
+    const posicion = posiciones[i];
+
+    const icono = fabricaIconos.obtenerIcono(tipo);
+    icono.dibujar();
+    console.log(`Ícono ${tipo} en la posición (${posicion[0]}, ${posicion[1]})`);
+}
+
+```
+
 ### Proxy<a name="proxy"></a>
 
 
