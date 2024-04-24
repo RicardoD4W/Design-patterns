@@ -532,6 +532,69 @@ console.log('Empleado 2:', empleado2.detalles()); // Empleado 2: Nombre: Bob, Ag
 
 ### Singleton<a name="singleton"></a>
 
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★✰** |
+
+
+#### Propósito 
+
+Garantizar que una clase tenga una única instancia y proporcionar un punto de acceso global a esa instancia. Esto se utiliza cuando queremos asegurarnos de que una clase tenga exactamente una instancia y que esta instancia sea accesible desde cualquier parte del programa.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Garantiza una única instancia de la clase           | Violación del principio de responsabilidad única (```S```OLID)    |
+| Proporciona un punto de acceso global               | Dificulta la prueba unitaria                        |
+| Evita la creación de múltiples instancias           |                                                     |
+
+
+
+#### Problema
+
+Consideremos un sistema de registro de usuarios, necesitamos una clase que maneje la conexión a la base de datos y garantice que solo haya una instancia de esta clase en todo el programa.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Definimos la clase Singleton para manejar la conexión a la base de datos
+class DBConnection {
+    private static instance: DBConnection;
+    private constructor() {} // Constructor privado para evitar la creación de instancias fuera de la clase
+
+    static getInstance(): DBConnection {
+        // Si no hay una instancia existente, creamos una nueva
+        if (!DBConnection.instance) {
+            DBConnection.instance = new DBConnection();
+        }
+        return DBConnection.instance;
+    }
+
+    // Método para simular la conexión a la base de datos
+    connect(): void {
+        console.log('Conexión a la base de datos establecida.');
+    }
+}
+
+// Cliente
+const dbConnection1 = DBConnection.getInstance();
+const dbConnection2 = DBConnection.getInstance();
+
+// Verificar si dbConnection1 y dbConnection2 son la misma instancia
+console.log(dbConnection1 === dbConnection2); // Output: true
+
+// Conectar a la base de datos a través de dbConnection1
+dbConnection1.connect(); // Output: Conexión a la base de datos establecida.
+
+```
+
+
+
 ---
 
 
