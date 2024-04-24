@@ -128,6 +128,9 @@ Además, **todos los patrones pueden clasificarse por su propósito:**
 
 ### Factory Method<a name="factory-method"></a>
 
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
 
 #### Propósito 
 
@@ -153,6 +156,9 @@ Al final acabarás con un código bastante sucio, plagado de condicionales que c
 | Abstracción                           | Diseño adicional necesario                |
 | Extensibilidad                        | Acoplamiento potencial                    |
 | Reutilización del código              | Sobrecarga inicial                        |
+
+
+#### Ejemplo
  
 
 ### Abstract Factory<a name="abstract-factory"></a>
