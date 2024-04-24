@@ -1874,6 +1874,91 @@ reproductor.detener();   // Imprime "Canción detenida"
 
 
 ### Strategy<a name="strategy"></a>
+
+
+| **Complejidad** | **★✰✰** |
+| ----- | ----  |
+| **Popularidad** | **★★★** |
+
+
+#### Propósito 
+
+Definir una familia de algoritmos, encapsular cada uno de ellos y hacerlos intercambiables. Esto permite que el algoritmo varíe independientemente de los clientes que lo utilizan.
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Permite cambiar el comportamiento de un objeto sin modificar su estructura | Requiere la creación de múltiples clases concretas |
+| Facilita la reutilización de algoritmos            | Puede aumentar la complejidad de la aplicación      |
+| Promueve un diseño flexible y mantenible           | Puede introducir una sobrecarga de abstracción      |
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de procesamiento de pagos que necesita calcular el precio final de una compra aplicando diferentes estrategias de descuento según el tipo de cliente. Queremos implementar el patrón Strategy para permitir que el sistema aplique fácilmente diferentes estrategias de descuento.
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Contexto: Clase que representa el contexto en el que se aplica la estrategia de descuento
+class ContextoCompra {
+    constructor(private estrategiaDescuento: EstrategiaDescuento) {}
+
+    calcularDescuento(precio: number): number {
+        return this.estrategiaDescuento.calcularDescuento(precio);
+    }
+
+    setEstrategiaDescuento(estrategiaDescuento: EstrategiaDescuento): void {
+        this.estrategiaDescuento = estrategiaDescuento;
+    }
+}
+
+// Estrategia: Interfaz para definir las estrategias de descuento
+interface EstrategiaDescuento {
+    calcularDescuento(precio: number): number;
+}
+
+// Estrategias concretas: Implementaciones de las estrategias de descuento
+class DescuentoNormal implements EstrategiaDescuento {
+    calcularDescuento(precio: number): number {
+        return precio;
+    }
+}
+
+class DescuentoMiembroPlata implements EstrategiaDescuento {
+    calcularDescuento(precio: number): number {
+        return precio * 0.9; // 10% de descuento para miembros de nivel plata
+    }
+}
+
+class DescuentoMiembroOro implements EstrategiaDescuento {
+    calcularDescuento(precio: number): number {
+        return precio * 0.8; // 20% de descuento para miembros de nivel oro
+    }
+}
+
+// Cliente
+const contexto = new ContextoCompra(new DescuentoNormal());
+
+// Simular una compra con diferentes tipos de cliente
+const precioCompra = 100;
+
+console.log("precio sin descuento:", precioCompra);
+
+contexto.setEstrategiaDescuento(new DescuentoMiembroPlata());
+console.log("precio con descuento para miembro plata:", contexto.calcularDescuento(precioCompra));
+
+contexto.setEstrategiaDescuento(new DescuentoMiembroOro());
+console.log("precio con descuento para miembro oro:", contexto.calcularDescuento(precioCompra));
+
+```
+
+
+
+
 ### Template Method<a name="template-method"></a>
 ### Visitor<a name="visitor"></a>
 
