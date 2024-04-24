@@ -681,7 +681,106 @@ adaptadorServicioMapas.verMapa('Nueva York');
 
 
 ### Bridge<a name="bridge"></a>
+
+
+| **Complejidad** | **★★★** |
+| ----- | ----  |
+| **Popularidad** | **★✰✰** |
+
+
+#### Propósito 
+
+Separar una abstracción de su implementación, de modo que ambas puedan variar de forma independiente. Esto permite que las clases abstracción e implementación puedan cambiar sin afectar a la otra, proporcionando así flexibilidad en el diseño y facilitando la expansión y mantenimiento del código.
+
+
+#### Pros y contras
+
+| Pros                                                | Contras                                             |
+|-----------------------------------------------------|-----------------------------------------------------|
+| Desacopla la abstracción de la implementación       | Aumenta la complejidad del código                   |
+| Facilita la expansión y mantenimiento del código    | Puede requerir una estructura adicional de clases   |
+| Permite la variación independiente de abstracción e implementación | Puede ser excesivo para problemas simples           |
+
+
+
+#### Problema
+
+Consideremos que tenemos un sistema de entretenimiento que puede reproducir contenido multimedia, como películas y música, en diferentes dispositivos, como televisores y altavoces. Queremos que el sistema pueda trabajar con diferentes tipos de contenido y dispositivos de salida de forma independiente. Utilizaremos el patrón Bridge para separar la abstracción del contenido multimedia de su implementación en dispositivos de salida.
+
+
+#### Ejemplo
+
+```ts
+index.ts
+-----------------------------------------
+// Abstracción: Reproductor multimedia
+interface ReproductorMultimedia {
+    reproducir(): void;
+}
+
+// Implementación: Dispositivo de salida
+interface DispositivoSalida {
+    reproducirContenido(): void;
+}
+
+// Implementación concreta: Dispositivo de salida - Televisor
+class Televisor implements DispositivoSalida {
+    reproducirContenido(): void {
+        console.log('Reproduciendo contenido en el televisor...');
+    }
+}
+
+// Implementación concreta: Dispositivo de salida - Altavoz
+class Altavoz implements DispositivoSalida {
+    reproducirContenido(): void {
+        console.log('Reproduciendo contenido en el altavoz...');
+    }
+}
+
+// Abstracción refinada: Reproductor multimedia - Película
+class ReproductorPelicula implements ReproductorMultimedia {
+    constructor(private dispositivoSalida: DispositivoSalida) {}
+
+    reproducir(): void {
+        console.log('Reproduciendo película...');
+        this.dispositivoSalida.reproducirContenido();
+    }
+}
+
+// Abstracción refinada: Reproductor multimedia - Música
+class ReproductorMusica implements ReproductorMultimedia {
+    constructor(private dispositivoSalida: DispositivoSalida) {}
+
+    reproducir(): void {
+        console.log('Reproduciendo música...');
+        this.dispositivoSalida.reproducirContenido();
+    }
+}
+
+// Cliente
+const televisor = new Televisor();
+const altavoz = new Altavoz();
+
+const reproductorPelicula = new ReproductorPelicula(televisor);
+const reproductorMusica = new ReproductorMusica(altavoz);
+
+// Utilizar los reproductores multimedia
+reproductorPelicula.reproducir(); // Reproducir película en televisor
+reproductorMusica.reproducir(); // Reproducir música en altavoz
+
+```
+
+
+
+
+
 ### Composite<a name="composite"></a>
+
+
+
+
+
+
 ### Decorator<a name="decorator"></a>
 ### Facade<a name="facade"></a>
 ### Flyweight<a name="flyweight"></a>
